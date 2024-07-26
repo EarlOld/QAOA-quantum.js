@@ -3,6 +3,7 @@
 // let node2 = graph.node(200, 200, 25, "node2");
 // node1.connect(node2, 25) //created a connection with a weight of 25
 
+//@ts-ignore
 import Graph from "./graph.js";
 
 export interface Node {
