@@ -37,7 +37,7 @@ function App() {
           alignItems: "center",
         }}
       >
-        <div className="header">QAOA with COBYLA - Quantum.js</div>
+        <div className="header">QAOA with MAX-CUT - Quantum.js</div>
       </Header>
       <Content>
         <div
