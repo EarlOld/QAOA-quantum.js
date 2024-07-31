@@ -58,8 +58,8 @@ function App() {
               <canvas
                 className="flex-1"
                 id="canvasid"
-                width="1000px"
-                height="700px"
+                width="400px"
+                height="300px"
               />
             </Col>
             <Col span={14}>
