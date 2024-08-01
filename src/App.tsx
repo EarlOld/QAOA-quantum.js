@@ -2,8 +2,6 @@ import { Col, Layout, Row, theme } from "antd";
 
 const { Header, Content } = Layout;
 
-declare module "./libs/graph";
-
 import { useEdges } from "./hooks/useEdges.ts";
 import Form from "./components/Form/Form.tsx";
 
@@ -53,14 +51,9 @@ function App() {
             Algorithm (QAOA) with the Constrained Optimization BY Linear
             Approximations (COBYLA) method.
           </p>
-          <Row gutter={8} style={{ height: "40vh", overflow: 'auto' }}>
+          <Row gutter={8} style={{ height: "40vh", overflow: "auto" }}>
             <Col span={10}>
-              <canvas
-                className="flex-1"
-                id="canvasid"
-                width="400px"
-                height="300px"
-              />
+              <div className="canvas" id="canvasid" />
             </Col>
             <Col span={14}>
               <Row gutter={8}>

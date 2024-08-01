@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Graph, GraphType, Node } from "../libs/graph.ts";
-import { optimizeQAOAWithCOBYLA } from "@earlold/quantum.js/library/utils/QAOA/index.ts";
+import { optimizeQAOAWithCOBYLA } from "@earlold/quantum.js/library";
+import { DataSet, Network } from "vis-network/standalone";
 
 const getSquereCoordsByIndex = (index: number) => {
   const x = index % 3;
@@ -9,29 +9,38 @@ const getSquereCoordsByIndex = (index: number) => {
   return [x * 50 + 50, y * 50 + 50];
 };
 
-let graph: GraphType;
+let graph: Network | undefined = undefined;
+// @ts-ignore
+let edges, nodes;
 
 export const drawGraph = (
-  edges: Array<[number | undefined, number | undefined]>,
+  source: Array<[number | undefined, number | undefined]>,
   canvasId: string
 ) => {
-  if (graph == undefined) {
-    graph = new Graph(canvasId);
-  }
+  graph?.destroy();
+  // @ts-ignore
+  nodes?.clear();
+  // @ts-ignore
+  edges?.clear();
 
-  graph.clear();
+  nodes = new DataSet(source.map((_, index) => ({ id: index, label: index })));
 
-  const ghNodes: Node[] = edges.map((_, index) => {
-    const [x, y] = getSquereCoordsByIndex(index);
-    return graph.node(x, y, 15, index.toString());
-  });
+  edges = new DataSet(
+    source.map(([source, target], index) => ({
+      from: source,
+      to: target,
+      id: `${source}-${target}-${index}`,
+    }))
+  );
 
-  console.log("ghNodes", ghNodes);
-
-  edges.forEach(([source, target]) => {
-    if (source === undefined || target === undefined) return;
-    ghNodes[source].connect(ghNodes[target]);
-  });
+  const container = document.getElementById(canvasId);
+  const data = {
+    nodes: nodes,
+    edges: edges,
+  };
+  var options = {};
+  // @ts-ignore
+  graph = new Network(container!, data, options);
 };
 
 export const useEdges = () => {
