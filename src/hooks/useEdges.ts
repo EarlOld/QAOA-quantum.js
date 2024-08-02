@@ -1,31 +1,20 @@
 import { useEffect, useState } from "react";
-import { optimizeQAOAWithCOBYLA } from "@earlold/quantum.js/library";
+import { optimizeQAOAWithCOBYLA } from "@earlold/quantum.js";
 import { DataSet, Network } from "vis-network/standalone";
 
-const getSquereCoordsByIndex = (index: number) => {
-  const x = index % 3;
-  const y = Math.floor(index / 3);
-
-  return [x * 50 + 50, y * 50 + 50];
-};
-
 let graph: Network | undefined = undefined;
-// @ts-ignore
-let edges, nodes;
 
 export const drawGraph = (
   source: Array<[number | undefined, number | undefined]>,
   canvasId: string
 ) => {
   graph?.destroy();
-  // @ts-ignore
-  nodes?.clear();
-  // @ts-ignore
-  edges?.clear();
 
-  nodes = new DataSet(source.map((_, index) => ({ id: index, label: index })));
+  const nodes = new DataSet(
+    source.map((_, index) => ({ id: index, label: index }))
+  );
 
-  edges = new DataSet(
+  const edges = new DataSet(
     source.map(([source, target], index) => ({
       from: source,
       to: target,
@@ -39,6 +28,7 @@ export const drawGraph = (
     edges: edges,
   };
   var options = {};
+
   // @ts-ignore
   graph = new Network(container!, data, options);
 };
