@@ -11,7 +11,7 @@ export const drawGraph = (
   graph?.destroy();
 
   const nodes = new DataSet(
-    source.map((_, index) => ({ id: index, label: index }))
+    source.map((_, index) => ({ id: index, label: index.toString() }))
   );
 
   const edges = new DataSet(
