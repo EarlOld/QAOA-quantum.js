@@ -4,6 +4,19 @@ import { DataSet, Network } from "vis-network/standalone";
 
 let graph: Network | undefined = undefined;
 
+const getNodes = (edges: Array<[number | undefined, number | undefined]>) => {
+  return edges.reduce((acc, item) => {
+    const newAcc = [...acc];
+    if (item[0] !== undefined && !newAcc.includes(item[0])) {
+      newAcc.push(item[0]);
+    }
+    if (item[1] !== undefined && !newAcc.includes(item[1])) {
+      newAcc.push(item[1]);
+    }
+    return newAcc;
+  }, [] as number[]);
+};
+
 export const drawGraph = (
   source: Array<[number | undefined, number | undefined]>,
   canvasId: string
@@ -11,7 +24,7 @@ export const drawGraph = (
   graph?.destroy();
 
   const nodes = new DataSet(
-    source.map((_, index) => ({ id: index, label: index.toString() }))
+    getNodes(source).map((index) => ({ id: index, label: index.toString() }))
   );
 
   const edges = new DataSet(
@@ -64,8 +77,10 @@ export const useEdges = () => {
   };
 
   const handleRunQAOA = () => {
+    const nodes = getNodes(edges);
+
     const { beta, gamma, score } = optimizeQAOAWithCOBYLA(
-      edges.map((_, index) => index),
+      nodes,
       edges,
       1,
       "mpl"
